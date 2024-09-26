@@ -31,8 +31,8 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           role-session-name: GitHubActions
-          role-audience: "sts.amazonaws.com"
-          aws-region: ${{ secrets.AWS_REGION }}
+          audience: "sts.amazonaws.com"
+          aws-region: "eu-central-1"
 
       # - name: Configure AWS Credentials
       #   id: aws_credentials
