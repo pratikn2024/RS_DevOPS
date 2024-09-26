@@ -30,7 +30,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: GithubActionsRole
-          source-account-id: 329599632576
+          mask-aws-account-id: 329599632576
           role-session-name: GitHubActions
           aws-region: eu-central-1
 
