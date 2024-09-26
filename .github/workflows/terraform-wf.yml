@@ -24,14 +24,22 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.0  # Specify your Terraform version
-
-      - name: Configure AWS Credentials
-        id: aws_credentials
-        uses: aws-actions/configure-aws-credentials@v2
+          terraform_version: latest  # Specify your Terraform version
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # Reference to your secret
-          aws-region: ${{ secrets.AWS_REGION }}          # Reference to your secret
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: GitHubActions
+          role-audience: "sts.amazonaws.com"
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # - name: Configure AWS Credentials
+      #   id: aws_credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # Reference to your secret
+      #     aws-region: ${{ secrets.AWS_REGION }}          # Reference to your secret
 
       - name: Terraform Init
         run: terraform init
