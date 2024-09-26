@@ -1,0 +1,48 @@
+name: Terraform CI/CD
+
+on:
+  workflow_dispatch: 
+  push:
+    branches:
+      - main  # Change this to your target branch
+  pull_request:
+    branches:
+      - main  # Change this to your target branch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write  # Required for assuming the IAM role
+      contents: read    # Required for checking out the code
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0  # Specify your Terraform version
+
+      - name: Configure AWS Credentials
+        id: aws_credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # Reference to your secret
+          aws-region: ${{ secrets.AWS_REGION }}          # Reference to your secret
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=tfplan
+
+    #   - name: Terraform Apply
+    #     run: terraform apply -auto-approve tfplan
+    #     if: github.ref == 'refs/heads/main'  # Apply only on main branch
+
+    #   - name: Clean up
+    #     run: rm -f tfplan
