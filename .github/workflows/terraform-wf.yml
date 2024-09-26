@@ -33,13 +33,6 @@ jobs:
           role-session-name: GitHubActions
           aws-region: eu-central-1
 
-      # - name: Configure AWS Credentials
-      #   id: aws_credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # Reference to your secret
-      #     aws-region: ${{ secrets.AWS_REGION }}          # Reference to your secret
-
       - name: Terraform Init
         run: |
           pwd
@@ -53,7 +46,9 @@ jobs:
          terraform plan -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: |
+          cd terraform/envs/dev
+          terraform apply -auto-approve tfplan
         if: github.ref == 'refs/heads/main'  # Apply only on main branch
 
       - name: Clean up
