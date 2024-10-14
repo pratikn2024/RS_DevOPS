@@ -45,11 +45,11 @@ jobs:
          cd terraform/envs/dev
          terraform plan -out=tfplan
 
-      - name: Terraform Apply
-        run: |
-          cd terraform/envs/dev
-          terraform apply -auto-approve tfplan
-        if: github.ref == 'refs/heads/main'  # Apply only on main branch
+      # - name: Terraform Apply
+      #   run: |
+      #     cd terraform/envs/dev
+      #     terraform apply -auto-approve tfplan
+      #   if: github.ref == 'refs/heads/main'  # Apply only on main branch
 
       - name: Clean up
         run: rm -f tfplan
