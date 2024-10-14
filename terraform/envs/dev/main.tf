@@ -1,5 +1,9 @@
 provider "aws" {
   region = var.region
+  assume_role {
+    role_arn     = "arn:aws:iam::329599632576:role/GithubActionsRole"
+    session_name = "terraform-session"
+  }
 }
 
 # Create a VPC
